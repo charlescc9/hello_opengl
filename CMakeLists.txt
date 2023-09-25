@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.22)
 
 project(hello_opengl VERSION 0.1.0)
 
-# add_definitions(-std=c++17)
-
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 set(CMAKE_BUILD_TYPE Debug)
@@ -11,7 +9,7 @@ set(CMAKE_BUILD_TYPE Debug)
 find_package(glfw3 3.3 REQUIRED)
 find_package(OpenGL REQUIRED)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp)
 
 add_library(glad "dependencies/library/glad.c")
 target_include_directories(glad PRIVATE "dependencies/include")

@@ -1,4 +1,5 @@
 app
+hello_opengl
 /app*
 /build*
 /CMakeFiles/*
