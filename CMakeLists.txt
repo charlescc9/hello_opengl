@@ -16,6 +16,11 @@ target_include_directories(glad PRIVATE "dependencies/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "dependencies/include")
 target_link_libraries(${PROJECT_NAME} glad ${CMAKE_DL_LIBS})
 
+add_library(lib "src/shader.cpp")
+target_include_directories(lib PUBLIC "include")
+target_include_directories(lib PUBLIC "dependencies/include")
+target_link_libraries(${PROJECT_NAME} lib)
+
 target_include_directories(${PROJECT_NAME} PUBLIC ${OPENGL_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} "-framework Cocoa")
