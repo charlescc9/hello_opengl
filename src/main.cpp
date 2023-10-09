@@ -9,12 +9,12 @@
 // Vertices coordinates
 GLfloat vertices[] =
 {
-	-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,    // Lower left corner
-	0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,     // Lower right corner
-	0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f,  // Upper corner
-	-0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner left
-	0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f,  // Inner right
-	0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f      // Inner down
+	-0.5f, -0.5f * float(sqrt(3)) * 1 / 3, 0.0f, 0.8f, 0.3f,  0.02f, // Lower left corner
+	 0.5f, -0.5f * float(sqrt(3)) * 1 / 3, 0.0f, 0.8f, 0.3f,  0.02f, // Lower right corner
+	 0.0f,  0.5f * float(sqrt(3)) * 2 / 3, 0.0f, 1.0f, 0.6f,  0.32f, // Upper corner
+	-0.25f, 0.5f * float(sqrt(3)) * 1 / 6, 0.0f, 0.9f, 0.45f, 0.17f, // Inner left
+	 0.25f, 0.5f * float(sqrt(3)) * 1 / 6, 0.0f, 0.9f, 0.45f, 0.17f, // Inner right
+	 0.0f, -0.5f * float(sqrt(3)) * 1 / 3, 0.0f, 0.8f, 0.3f,  0.02f  // Inner down
 };
 
 // Indices for vertices order
@@ -77,12 +77,16 @@ int main()
     ElementBufferObject element_buffer(indices, sizeof(indices));
 
     // Link vertex array with vertex buffer
-    vertex_array.LinkVertextBuffer(vertex_buffer, 0);
+    vertex_array.LinkVertextBuffer(vertex_buffer, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*) 0);
+    vertex_array.LinkVertextBuffer(vertex_buffer, 1, 3, GL_FLOAT, 6 * sizeof(float), 
+                                   (void*) (3 * sizeof(float)));
 
     // Unbind to prevent accidental modification
     vertex_array.Unbind();
     vertex_buffer.Unbind();
     element_buffer.Unbind();
+
+    GLuint uniform_id = glGetUniformLocation(shader_program.id, "scale");
 
     // Main loop
     while(!glfwWindowShouldClose(window))
@@ -90,13 +94,14 @@ int main()
         processInput(window);
 
         // Clear frame
-        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+        glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        // glCheckError(); 
+        glCheckError(); 
         
         // Activate shader
         shader_program.Activate();
-        // glCheckError(); 
+        glUniform1f(uniform_id, 0.5f);
+        glCheckError(); 
 
         // Bind vertex array
         vertex_array.Bind();
@@ -106,11 +111,11 @@ int main()
 
         // Swap buffer
         glfwSwapBuffers(window);
-        // glCheckError(); 
+        glCheckError(); 
 
         // Poll for events
         glfwPollEvents();    
-        // glCheckError(); 
+        glCheckError(); 
     }
 
     // Clean up

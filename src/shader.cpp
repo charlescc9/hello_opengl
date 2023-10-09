@@ -81,15 +81,15 @@ Shader::Shader(const char *vertex_file, const char *fragment_file) {
 	glCheckError();
 
 	// Create shader program and get its reference
-	id_ = glCreateProgram();
+	id = glCreateProgram();
 
 	// Attach the vertex and fragment shaders to the shader program
-	glAttachShader(id_, vertex_shader);
-	glAttachShader(id_, fragment_shader);
+	glAttachShader(id, vertex_shader);
+	glAttachShader(id, fragment_shader);
 	glCheckError();
 
 	// Link all the shaders together into the shader program
-	glLinkProgram(id_);
+	glLinkProgram(id);
 	glCheckError();
 
 	// Delete the now useless vertex and fragment shader objects
@@ -99,9 +99,9 @@ Shader::Shader(const char *vertex_file, const char *fragment_file) {
 }
 
 void Shader::Activate() {
-	glUseProgram(id_);
+	glUseProgram(id);
 }
 
 void Shader::Delete() {
-	glDeleteProgram(id_);
+	glDeleteProgram(id);
 }

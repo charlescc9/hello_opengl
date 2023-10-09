@@ -10,7 +10,8 @@ public:
 	VertexArrayObject();
 
 	// Links a vertex buffer to the vertex array using a certain layout
-	void LinkVertextBuffer(VertexBufferObject& vertex_buffer, GLuint layout);
+	void LinkVertextBuffer(VertexBufferObject& vertex_buffer, GLuint layout, GLuint num_componenets,
+						   GLenum type, GLsizeiptr stride, void* offset);
 	
     // Binds the vertex array
 	void Bind();

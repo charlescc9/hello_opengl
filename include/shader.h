@@ -25,7 +25,6 @@ public:
     // Deletes the Shader Program
 	void Delete();
 
-private:
     // Reference ID of the Shader Program
-	GLuint id_;
+	GLuint id;
 };

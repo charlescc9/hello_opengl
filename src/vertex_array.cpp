@@ -7,10 +7,12 @@ VertexArrayObject::VertexArrayObject()
 }
 
 // Links a vertex buffer to the vertex array using a certain layout
-void VertexArrayObject::LinkVertextBuffer(VertexBufferObject& vertex_buffer, GLuint layout)
+void VertexArrayObject::LinkVertextBuffer(VertexBufferObject& vertex_buffer, GLuint layout, 
+										  GLuint num_componenets, GLenum type, GLsizeiptr stride, 
+										  void* offset)
 {
 	vertex_buffer.Bind();
-	glVertexAttribPointer(layout, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glVertexAttribPointer(layout, num_componenets, type, GL_FALSE, stride, offset);
 	glEnableVertexAttribArray(layout);
 	vertex_buffer.Unbind();
 }
