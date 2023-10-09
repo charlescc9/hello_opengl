@@ -11,12 +11,16 @@ find_package(OpenGL REQUIRED)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 
-add_library(glad "dependencies/library/glad.c")
+add_library(glad STATIC "dependencies/library/glad.c")
 target_include_directories(glad PRIVATE "dependencies/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "dependencies/include")
 target_link_libraries(${PROJECT_NAME} glad ${CMAKE_DL_LIBS})
 
-add_library(lib "src/shader.cpp")
+add_library(lib STATIC 
+    "src/element_buffer.cpp"    
+    "src/shader.cpp" 
+    "src/vertex_buffer.cpp" 
+    "src/vertex_array.cpp")
 target_include_directories(lib PUBLIC "include")
 target_include_directories(lib PUBLIC "dependencies/include")
 target_link_libraries(${PROJECT_NAME} lib)
