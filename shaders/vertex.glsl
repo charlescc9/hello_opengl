@@ -5,10 +5,12 @@ layout (location = 1) in vec3 in_color;
 
 out vec3 color;
 
-uniform float scale;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 void main()
 {
-    gl_Position = vec4(pos.x + pos.x * scale, pos.y + pos.y * scale, pos.z + pos.z * scale, 1.0);
+    gl_Position = projection * view * model * vec4(pos, 1.0);
     color = in_color;
 }
