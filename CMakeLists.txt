@@ -17,6 +17,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE "dependencies/include")
 target_link_libraries(${PROJECT_NAME} glad ${CMAKE_DL_LIBS})
 
 add_library(lib STATIC 
+    "src/camera.cpp"
     "src/element_buffer.cpp"    
     "src/shader.cpp" 
     "src/vertex_buffer.cpp" 

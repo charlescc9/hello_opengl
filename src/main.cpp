@@ -8,6 +8,7 @@
 #include <vertex_array.h>
 #include <vertex_buffer.h>
 #include <element_buffer.h>
+#include <camera.h>
 
 const unsigned int width = 800;
 const unsigned int height = 800;
@@ -15,11 +16,11 @@ const unsigned int height = 800;
 // Vertices coordinates
 GLfloat vertices[] =
 { 
-	-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,
+	-0.5f, 0.0f,  0.5f,     0.73f, 0.20f, 0.84f,
 	-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,
 	 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,
 	 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,
-	 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,
+	 0.0f, 0.8f,  0.0f,     0.99f, 0.99f, 0.99f,
 };
 
 // Indices for vertices order
@@ -94,12 +95,11 @@ int main()
     vertex_buffer.Unbind();
     element_buffer.Unbind();
 
-    // Set up rotation
-    float rotation = 0.0f;
-	double prev_time = glfwGetTime();
-
 	// Enables the Depth Buffer
 	glEnable(GL_DEPTH_TEST);
+
+    // Create camera
+    Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
     // Main loop
     while(!glfwWindowShouldClose(window))
@@ -115,29 +115,11 @@ int main()
         shader_program.Activate();
         glCheckError(); 
 
-        // Change rotation based on timer
-		double curr_time = glfwGetTime();
-		if (curr_time - prev_time >= 1 / 60)
-		{
-			rotation += 0.1f;
-			prev_time = curr_time;
-		}
+        // Handle inputs
+        camera.Inputs(window);
 
-        // Initialize MVP matrices
-        glm::mat4 model = glm::mat4(1.0f);
-        glm::mat4 view = glm::mat4(1.0f);
-        glm::mat4 projection = glm::mat4(1.0f);
-
-        model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-        view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
-        projection = glm::perspective(glm::radians(45.0f), (float) (width / height), 0.1f, 100.0f);
-
-        int model_id = glGetUniformLocation(shader_program.id, "model");
-        glUniformMatrix4fv(model_id, 1, GL_FALSE, glm::value_ptr(model));
-        int view_id = glGetUniformLocation(shader_program.id, "view");
-        glUniformMatrix4fv(view_id, 1, GL_FALSE, glm::value_ptr(view));
-        int projection_id = glGetUniformLocation(shader_program.id, "projection");
-        glUniformMatrix4fv(projection_id, 1, GL_FALSE, glm::value_ptr(projection));
+        // Update camera matrix
+        camera.UpdateMatrix(45.0f, 0.1f, 100.0f, shader_program, "camera_matrix");
 
         // Bind vertex array
         vertex_array.Bind();
